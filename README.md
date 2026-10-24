@@ -11,10 +11,9 @@ An end-to-end Management Information System (MIS) pipeline for an automotive bus
 (facts and dimensions) and **SQL KPI marts** for sales trends, inventory movement, dealership performance and product KPIs,
 ready for **Power BI**.
 
-It runs completely on a laptop (no cloud account) and is structured to deploy on Azure.
 
-> **All data is synthetic** (fictional dealerships and vehicle models; amounts in INR). No company or customer data is used,
-> and no business results are invented: every number in this README was produced by running the code in this repository.
+
+> **All data is synthetic** (fictional dealerships and vehicle models; amounts in INR). No company or customer data is used.
 
 ---
 
