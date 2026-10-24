@@ -1,6 +1,6 @@
 # Automotive MIS & KPI Analytics (PySpark, SQL, Delta Lake, Azure)
 
-[![CI](https://github.com/<your-username>/automotive-mis-kpi-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-username>/automotive-mis-kpi-analytics/actions)
+[![CI](https://github.com/himanshuupadhyay300/automotive-mis-kpi-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/himanshuupadhyay300/automotive-mis-kpi-analytics/actions)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![PySpark](https://img.shields.io/badge/PySpark-3.5-orange)
 ![Delta Lake](https://img.shields.io/badge/Delta%20Lake-3.2-00ADD8)
