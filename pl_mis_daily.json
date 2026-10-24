@@ -1,0 +1,22 @@
+{
+  "name": "pl_mis_daily",
+  "properties": {
+    "description": "TEMPLATE (not deployed). Runs the Databricks MIS notebook for newly landed CSV extracts. Ingestion is checksum-based, so reruns and overlapping runs are harmless.",
+    "parameters": { "storage_account": { "type": "string" } },
+    "activities": [
+      {
+        "name": "RunMisNotebook",
+        "type": "DatabricksNotebook",
+        "policy": { "timeout": "0.03:00:00", "retry": 2, "retryIntervalInSeconds": 120 },
+        "typeProperties": {
+          "notebookPath": "/Repos/<user-or-service-principal>/automotive-mis-kpi-analytics/notebooks/01_run_mis_pipeline",
+          "baseParameters": {
+            "storage_account": { "value": "@pipeline().parameters.storage_account", "type": "Expression" },
+            "stage": "all"
+          }
+        },
+        "linkedServiceName": { "referenceName": "ls_databricks_mis", "type": "LinkedServiceReference" }
+      }
+    ]
+  }
+}

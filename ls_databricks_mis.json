@@ -1,0 +1,16 @@
+{
+  "name": "ls_databricks_mis",
+  "properties": {
+    "description": "TEMPLATE. The Databricks token is read from Key Vault; there is no secret in this file.",
+    "type": "AzureDatabricks",
+    "typeProperties": {
+      "domain": "https://<workspace-id>.azuredatabricks.net",
+      "accessToken": {
+        "type": "AzureKeyVaultSecret",
+        "store": { "referenceName": "ls_keyvault_mis", "type": "LinkedServiceReference" },
+        "secretName": "databricks-access-token"
+      },
+      "existingClusterId": "<cluster-id>"
+    }
+  }
+}

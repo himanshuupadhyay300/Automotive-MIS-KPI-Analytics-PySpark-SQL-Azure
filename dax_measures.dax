@@ -1,0 +1,32 @@
+// Power BI starting-point measures for the star schema produced by this project.
+// STATUS: provided as guidance. NOT validated in Power BI Desktop from this repository.
+// Model: fact_sales[date_key] -> dim_date[date_key], fact_sales[dealership_key] -> dim_dealership[dealership_key],
+//        fact_sales[product_key] -> dim_product[product_key]  (all one-to-many, single direction).
+// Mark dim_date[date] as the Date table.
+
+Net Revenue        = SUM ( fact_sales[net_amount] )
+Gross Profit       = SUM ( fact_sales[gross_profit] )
+Units Sold         = SUM ( fact_sales[quantity] )
+Transactions       = COUNTROWS ( fact_sales )
+Gross Margin %     = DIVIDE ( [Gross Profit], [Net Revenue] )
+Avg Discount %     = AVERAGE ( fact_sales[discount_pct] ) / 100        // stored as 0-30, format as %
+
+Net Revenue PM     = CALCULATE ( [Net Revenue], DATEADD ( dim_date[date], -1, MONTH ) )
+MoM Growth %       = DIVIDE ( [Net Revenue] - [Net Revenue PM], [Net Revenue PM] )
+Fiscal YTD Revenue = TOTALYTD ( [Net Revenue], dim_date[date], "3/31" )  // Indian FY ends 31 March
+
+// Target attainment reads the pre-computed mart (one row per dealership per month with its target)
+Target Attainment % =
+    DIVIDE ( SUM ( mart_dealership_monthly[net_revenue] ), SUM ( mart_dealership_monthly[monthly_sales_target] ) )
+
+// Inventory (snapshot table: do NOT sum across weeks; take the latest snapshot in the filter context)
+Closing Units =
+    CALCULATE ( SUM ( fact_inventory_snapshot[units_on_hand] ), LASTDATE ( fact_inventory_snapshot[snapshot_date] ) )
+Stock Value (cost) =
+    CALCULATE ( SUM ( fact_inventory_snapshot[stock_value_at_cost] ), LASTDATE ( fact_inventory_snapshot[snapshot_date] ) )
+Reconciliation Exceptions =
+    COUNTROWS ( FILTER ( mart_inventory_weekly, mart_inventory_weekly[reconciliation_diff] <> 0 ) )
+Late-Arriving Sales = CALCULATE ( [Transactions], fact_sales[is_late_arrival] = TRUE () )
+
+// Row-level security (Modeling > Manage roles): table dim_dealership, filter expression
+// [region] = LOOKUPVALUE ( security_map[region], security_map[user_email], USERPRINCIPALNAME () )

@@ -1,0 +1,7 @@
+dealership_id,dealership_name,city,state,region,opened_date,monthly_sales_target
+D001,Sunrise Motors,Pune,Maharashtra,West,2012-03-15,48000000
+D002,Capital Auto Hub,New Delhi,Delhi,North,2009-07-01,49500000
+D003,Coastline Cars,Chennai,Tamil Nadu,South,2015-01-20,42000000
+D004,Eastern Wheels,Kolkata,West Bengal,East,2016-09-10,36000000
+D005,Lakeside Autos,Bhopal,Madhya Pradesh,Central,2018-11-05,38000000
+D006,Garden City Motors,Bengaluru,Karnataka,South,2011-05-25,50000000

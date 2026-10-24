@@ -1,0 +1,49 @@
+# Central configuration. No secrets here.
+app:
+  name: automotive-mis-kpi
+  environment: local
+  currency: INR
+
+logging:
+  level: INFO
+  json: true
+
+spark:
+  app_name: automotive-mis-kpi
+  master: "local[2]"
+  shuffle_partitions: 4
+  timezone: UTC
+
+storage:
+  format: parquet             # parquet | delta
+  base_path: output/lakehouse
+  input_path: data/sample
+  reports_path: output/reports
+  state_path: null            # null => <base_path>/_state/state.json
+
+ingestion:
+  entities:                   # landing-zone file patterns per entity
+    dealerships: ["dealerships_*.csv"]
+    products: ["products_*.csv"]
+    sales: ["sales_*.csv"]
+    inventory: ["inventory_*.csv"]
+
+quality:
+  min_sale_date: "2020-01-01"
+  allowed_payment_types: [Cash, Loan, Lease]
+  allowed_customer_types: [Retail, Corporate, Fleet]
+  allowed_segments: [Hatchback, Sedan, SUV, MPV]
+  allowed_fuel_types: [Petrol, Diesel, CNG, Hybrid, EV]
+  max_quantity_per_sale: 10
+  max_discount_pct: 30
+  max_unit_price: 10000000
+
+gold:
+  dim_date_start: "2025-01-01"
+  dim_date_end: "2026-12-31"
+  fiscal_year_start_month: 4      # Indian financial year: April to March
+  abc_a_threshold: 0.80           # cumulative revenue share for class A
+  abc_b_threshold: 0.95           # ... class B (rest is C)
+
+marts:
+  sql_dir: sql/marts

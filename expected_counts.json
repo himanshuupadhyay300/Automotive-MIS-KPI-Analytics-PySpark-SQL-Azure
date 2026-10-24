@@ -1,0 +1,81 @@
+{
+  "note": "Computed by the generator from the injected defects and the simulation, independent of the pipeline.",
+  "seed": 42,
+  "after_batch_1": {
+    "sales": {
+      "bronze_rows": 878,
+      "rejected_rows": 12,
+      "valid_rows": 866,
+      "in_batch_duplicate_rows_removed": 4,
+      "rows_with_warnings": 5,
+      "late_arrival_rows": 0,
+      "silver_rows": 862
+    },
+    "inventory": {
+      "bronze_rows": 1230,
+      "rejected_rows": 3,
+      "silver_rows": 1224,
+      "in_batch_duplicate_rows_removed": 3
+    },
+    "dealerships": {
+      "silver_rows": 6
+    },
+    "products": {
+      "silver_rows": 12
+    },
+    "reconciliation_exceptions": 12
+  },
+  "after_batch_2": {
+    "sales": {
+      "bronze_rows": 473,
+      "rejected_rows": 12,
+      "rows_matching_existing_silver": 10,
+      "rows_changing_existing_silver": 6,
+      "late_arrival_rows": 12,
+      "silver_rows": 1313
+    },
+    "inventory": {
+      "bronze_rows": 649,
+      "rejected_rows": 1,
+      "silver_rows": 1872
+    },
+    "dealerships": {
+      "silver_rows": 6,
+      "rows_changing_existing_silver": 1
+    },
+    "reconciliation_exceptions": 0,
+    "gold": {
+      "fact_sales_rows": 1313,
+      "fact_inventory_rows": 1872,
+      "total_net_revenue": 1432834100.0,
+      "total_gross_profit": 132600100.0,
+      "total_units": 1453,
+      "mart_monthly_sales_rows": 6,
+      "mart_dealership_monthly_rows": 36,
+      "mart_product_kpis_rows": 12,
+      "mart_inventory_weekly_rows": 1872
+    }
+  },
+  "corrected_sale_ids": [
+    "S0000036",
+    "S0000172",
+    "S0000257",
+    "S0000301",
+    "S0000419",
+    "S0000594"
+  ],
+  "late_sale_ids": [
+    "S0000774",
+    "S0000794",
+    "S0000798",
+    "S0000801",
+    "S0000802",
+    "S0000811",
+    "S0000815",
+    "S0000816",
+    "S0000822",
+    "S0000825",
+    "S0000834",
+    "S0000839"
+  ]
+}

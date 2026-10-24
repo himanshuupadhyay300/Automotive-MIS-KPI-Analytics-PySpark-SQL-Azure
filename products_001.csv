@@ -1,0 +1,13 @@
+product_id,model,variant,segment,fuel_type,list_price,unit_cost
+P001,Zephyr,LX,Hatchback,Petrol,550000,478000
+P002,Zephyr,VX,Hatchback,Petrol,640000,560000
+P003,Orion,LX,Sedan,Petrol,980000,855000
+P004,Orion,ZX,Sedan,Diesel,1180000,1030000
+P005,Titan,LX,SUV,Diesel,1450000,1260000
+P006,Titan,ZX,SUV,Diesel,1890000,1640000
+P007,Titan,Hybrid,SUV,Hybrid,2250000,1960000
+P008,Vega,LX,MPV,Petrol,1050000,915000
+P009,Vega,ZX,MPV,CNG,1190000,1040000
+P010,Pulse,E1,Hatchback,EV,1150000,1010000
+P011,Pulse,E2,SUV,EV,1790000,1560000
+P012,Nova,LX,Hatchback,CNG,610000,535000

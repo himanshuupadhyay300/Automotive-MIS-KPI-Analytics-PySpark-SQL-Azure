@@ -1,0 +1,53 @@
+# Azure DevOps pipeline - TEMPLATE (not executed from this repository).
+trigger: { branches: { include: [main] } }
+pr: { branches: { include: [main] } }
+
+variables:
+  serviceConnection: 'sc-azure-mis'          # ARM service connection (workload identity federation)
+  databricksHost: 'https://<workspace-id>.azuredatabricks.net'
+
+stages:
+  - stage: Test
+    jobs:
+      - job: lint_and_test
+        pool: { vmImage: ubuntu-latest }
+        steps:
+          - task: UsePythonVersion@0
+            inputs: { versionSpec: '3.11' }
+          - script: sudo apt-get update && sudo apt-get install -y openjdk-17-jre-headless
+            displayName: Java for Spark
+          - script: pip install -r requirements-dev.txt
+          - script: ruff check .
+            displayName: Lint
+          - script: pytest --junitxml=junit.xml --cov=src --cov-report=xml
+            displayName: Tests
+          - task: PublishTestResults@2
+            condition: succeededOrFailed()
+            inputs: { testResultsFiles: junit.xml }
+
+  - stage: Deploy
+    dependsOn: Test
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - deployment: deploy_dev
+        environment: mis-dev                  # add an approval check for prod
+        pool: { vmImage: ubuntu-latest }
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: AzureCLI@2
+                  displayName: Sync Databricks Repo and publish ADF pipeline
+                  inputs:
+                    azureSubscription: $(serviceConnection)
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      pip install databricks-cli
+                      export DATABRICKS_HOST=$(databricksHost)
+                      export DATABRICKS_TOKEN=$(az account get-access-token --resource 2ff814a6-3304-4ab8-85cb-cd0e6f879c1d --query accessToken -o tsv)
+                      databricks repos update --path /Repos/deploy/automotive-mis-kpi-analytics --branch main
+                      az extension add --name datafactory --only-show-errors
+                      az datafactory pipeline create --factory-name adf-automis-dev --resource-group rg-automis-dev \
+                        --name pl_mis_daily --pipeline @pipelines/adf/pl_mis_daily.json
